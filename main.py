@@ -31,16 +31,16 @@ headers = {
 }
 CHUNK_SIZE = 5242880
  
-@st.cache
+@st.cache_data
 def transcribe_from_link(link, categories: bool):
-	_id = link.strip()
+	id = link.strip()
 
-	def get_vid(_id):
+	def get_vid(id):
 		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-			return ydl.extract_info(_id)
+			return ydl.extract_info(id)
 
 	# download the audio of the YouTube video locally
-	meta = get_vid(_id)
+	meta = get_vid(id)
 	save_location = meta['id'] + ".mp3"
 
 	print('Saved mp3 to', save_location)
@@ -92,7 +92,7 @@ def refresh_state():
 
 st.title('Easily transcribe YouTube videos')
 
-link = st.text_input('Enter your YouTube video link', on_change=refresh_state)
+link = st.text_input('Enter your YouTube video link','https://www.youtube.com/watch?v=J7p4bzqLvCw',on_change=refresh_state)
 st.video(link)
 
 st.text("The transcription is " + st.session_state['status'])
